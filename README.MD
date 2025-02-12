@@ -50,3 +50,15 @@ nvm use
 
 ```
 ng new ProEventos-App
+```
+https://fontawesome.com
+Using a Package Manager
+https://www.npmjs.com/package/@fortawesome/fontawesome-free
+```
+npm i @fortawesome/fontawesome-free
+```
+https://valor-software.com/ngx-bootstrap/
+
+```
+npm install ngx-bootstrap --save
+npm install bootstrap@4
