@@ -38,3 +38,15 @@ dotnet ef database update
 ```
 brew install db-browser-for-sqlite
 ```
+angular essential
+```
+angular Files
+```
+Auto close tags
+```
+TSLint
+```
+nvm use
+
+```
+ng new ProEventos-App
