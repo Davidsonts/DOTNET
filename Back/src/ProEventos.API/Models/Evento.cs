@@ -1,0 +1,19 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace ProEventos.API.Models 
+{
+    public class Evento
+    {
+        public int EventoId { get; set; }
+        public string Local { get; set; }
+        public string DataEvento { get; set; }
+        public string tema { get; set; }
+        public int QtdPessoas { get; set; }
+        public string Lote { get; set; }
+        public string ImageUrl { get; set; }
+
+     }
+ }
