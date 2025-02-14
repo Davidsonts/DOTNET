@@ -1,14 +1,77 @@
-<p>eventos works!</p>
+<h2>Eventos</h2>
+<hr>
 
-<p *ngFor="let evento of eventos">
-    {{evento.nome}}
-    {{evento.local}}
-    {{evento.data}}
-    {{evento.hora}}
-    {{evento.descricao}}
-    {{evento.qtdPessoas}}
-    <!-- {{evento.qtdPessoasConfirmadas}}
-    {{evento.qtdPessoasNaoConfirmadas}}
-    {{evento.qtdPessoasNaoRespondidas}}
-    {{evento.qtdPessoasNaoConfirmadas}} -->
-</p>
+<div action="" class="form-inline">
+    <div class="form-group mb-2">
+        <label>Filtros: </label>
+        <input type="text" 
+        class="form-control mr-2" 
+        id="txtPesquisa" 
+        placeholder="Buscar"
+        [(ngModel)]="filtroLista" 
+        />
+    </div>
+   
+</div> 
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                <button type="button" class="btn btn-outline-light" (click)="alternarImagem()">
+                    {{mostrarImagem ? 'Ocultar' : 'Exibir'}}
+                </button>
+            </th>
+            <th>#</th>
+            <th>Evento</th>
+            <th>Local</th>
+            <th>Data</th>
+            <th>Qth Pessoas</th>
+            <th>Lote</th>
+            <th>Opções</th>
+        </tr>
+    </thead>
+    <tbody *ngIf="eventos && eventos.length > 0">
+        <tr *ngFor="let evento of eventosFiltrados">
+            <td>
+                <img [collapse]="!mostrarImagem"
+                    [isAnimated]="true"
+                    src="/assets/{{evento?.imagemURL}}"
+                    [style.width.px]="widthImg" 
+                    [style.magin.px]="marginImg" />
+            </td>  
+            <td>
+                {{evento?.id}}
+            </td> 
+            <td>
+                {{evento?.tema}}
+            </td>
+            <td>
+                {{evento?.local}}
+            </td>
+            <td>
+                {{evento?.data}}
+            </td>
+            <td>
+                {{evento?.qtdPessoas}}
+            </td>
+            <td>
+                {{evento?.lote}}
+            </td>
+            <td>
+                <button type="button" class="btn btn-primary btn-sm mr-2">editar</button> 
+                <button type="button" class="btn btn-danger btn-sm mr-2">excluir</button>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot *ngIf="eventos && eventos.length === 0">
+        <tr>
+            <td colspan="6">
+                <div class="text-center">
+                    <button class="btn btn-primary">Nenhum Evento Encontrado</button>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
