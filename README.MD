@@ -60,5 +60,5 @@ npm i @fortawesome/fontawesome-free
 https://valor-software.com/ngx-bootstrap/
 
 ```
-npm install ngx-bootstrap --save
+npm install ngx-bootstrap@6.2.0 --save
 npm install bootstrap@4
