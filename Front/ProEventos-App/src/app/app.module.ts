@@ -16,6 +16,7 @@ import { EventosComponent } from './eventos/eventos.component';
 import { PalestrantesComponent } from './palestrantes/palestrantes.component';
 import { NavComponent } from './nav/nav.component';
 import { DateTimeFormatPipe } from './_helpers/DateTimeFormat.pipe';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { DateTimeFormatPipe } from './_helpers/DateTimeFormat.pipe';
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
       closeButton: true
-    })
+    }),
+    NgxSpinnerModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

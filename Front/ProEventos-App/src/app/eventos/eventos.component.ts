@@ -1,7 +1,9 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
+import { NgxSpinnerService } from 'ngx-spinner';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ToastrService, ToastNoAnimation } from 'ngx-toastr';
+
 import { EventoService } from '../_services/evento.service';
 import { Evento } from '../_models/Evento';
 
@@ -41,7 +43,8 @@ export class EventosComponent implements OnInit {
   constructor(
     private service: EventoService, 
     private modalService: BsModalService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
   ){ 
 
   }
@@ -53,7 +56,7 @@ export class EventosComponent implements OnInit {
   confirm(): void {
     this.message = 'Confirmed!';
     this.modalRef.hide();
-    this.toastr.success('Hello world!', 'Toastr fun!');
+    this.toastr.success('Excluído', 'Escluído');
   }
  
   decline(): void {
@@ -62,7 +65,8 @@ export class EventosComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.getEventos();
+     this.getEventos();
+     this.spinner.show();
   }
 
   public getEventos() {
@@ -70,7 +74,11 @@ export class EventosComponent implements OnInit {
       this.eventos = _evento;
       this.eventosFiltrados = this.eventos
     }, (error: unknown) => {
-      console.log(error);
+      // console.log(error);
+      this.spinner.hide();
+      this.toastr.error('Erro ao carregar eventos', 'Erro');
+    }, () => {
+      this.spinner.hide();
     });
   }
 
