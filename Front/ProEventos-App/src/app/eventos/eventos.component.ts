@@ -1,8 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { ToastrService } from 'ngx-toastr/toastr/toastr.service';
-
+import { ToastrService, ToastNoAnimation } from 'ngx-toastr';
 import { EventoService } from '../_services/evento.service';
 import { Evento } from '../_models/Evento';
 
@@ -42,7 +41,8 @@ export class EventosComponent implements OnInit {
   constructor(
     private service: EventoService, 
     private modalService: BsModalService,
-    private toastr: ToastrService) { 
+    private toastr: ToastrService
+  ){ 
 
   }
 
@@ -53,7 +53,7 @@ export class EventosComponent implements OnInit {
   confirm(): void {
     this.message = 'Confirmed!';
     this.modalRef.hide();
-    // this.toastr.success('Hello world!', 'Toastr fun!');
+    this.toastr.success('Hello world!', 'Toastr fun!');
   }
  
   decline(): void {
