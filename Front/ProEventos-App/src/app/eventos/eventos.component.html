@@ -19,6 +19,7 @@
         <tr>
             <th>
                 <button type="button" class="btn btn-outline-light" (click)="alternarImagem()">
+                    <i class="{{mostrarImagem ? 'fa fa-eye' : 'fa fa-eye-slash'}}"></i>
                     {{mostrarImagem ? 'Ocultar' : 'Exibir'}}
                 </button>
             </th>
@@ -50,17 +51,23 @@
                 {{evento?.local}}
             </td>
             <td>
-                {{evento?.data}}
+                {{evento?.dataEvento | DateTimeFormat}}
             </td>
             <td>
                 {{evento?.qtdPessoas}}
             </td>
             <td>
-                {{evento?.lote}}
+                {{evento?.lotes}}
             </td>
             <td>
-                <button type="button" class="btn btn-primary btn-sm mr-2">editar</button> 
-                <button type="button" class="btn btn-danger btn-sm mr-2">excluir</button>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary btn-sm mr-2" tooltip="Editar">
+                        <i class="fa fa-edit"></i>
+                    </button> 
+                    <button type="button" class="btn btn-danger btn-sm mr-2" tooltip="Excluir" (click)="openModal(template)">
+                        <i class="fa fa-trash"></i> 
+                    </button>
+                </div>
             </td>
         </tr>
     </tbody>
@@ -75,3 +82,11 @@
     </tfoot>
 </table>
 
+<pre class="card card-block card-header">{{message}}</pre>
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Do you want to confirm?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()" >Yes</button>
+    <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
+  </div>
+</ng-template>

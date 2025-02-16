@@ -1,14 +1,19 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr/toastr/toastr.service';
+
+import { EventoService } from '../_services/evento.service';
+import { Evento } from '../_models/Evento';
 
 @Component({
   selector: 'app-eventos',
   templateUrl: './eventos.component.html',
-  styleUrls: ['./eventos.component.scss']
+  styleUrls: ['./eventos.component.scss'],
 })
 export class EventosComponent implements OnInit {
-  public eventos: any = [];
-  public eventosFiltrados: any = [];
+  public eventos: Evento[] = [];
+  public eventosFiltrados: Evento[] = [];
   public widthImg: number = 150;
   public marginImg: number  = 2;
   public mostrarImagem: boolean = false;
@@ -23,31 +28,56 @@ export class EventosComponent implements OnInit {
     this.eventosFiltrados = this._filtroLista ? this.filtarEventos(this._filtroLista) : this.eventos
   }
 
-  filtarEventos(filtarPor: string): any {
+  public filtarEventos(filtarPor: string): Evento[] {
     filtarPor = filtarPor.toLocaleLowerCase()
     return this.eventos.filter(
-        (e: any) => e.tema.toLocaleLowerCase().indexOf(filtarPor) !== -1 ||
+        (e: Evento) => e.tema.toLocaleLowerCase().indexOf(filtarPor) !== -1 ||
           e.local.toLocaleLowerCase().indexOf(filtarPor) !== -1 
     )
   }
+  
+  modalRef!: BsModalRef;
+  message!: string;
+  
+  constructor(
+    private service: EventoService, 
+    private modalService: BsModalService,
+    private toastr: ToastrService) { 
 
-  constructor(private http: HttpClient) { }
+  }
 
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
+  }
+ 
+  confirm(): void {
+    this.message = 'Confirmed!';
+    this.modalRef.hide();
+    // this.toastr.success('Hello world!', 'Toastr fun!');
+  }
+ 
+  decline(): void {
+    this.message = 'Declined!';
+    this.modalRef.hide();
+  }
+  
   ngOnInit(): void {
-    this.getEventos()
+    this.getEventos();
   }
 
-  public alternarImagem() {
-    this.mostrarImagem = !this.mostrarImagem;
-  }
-
-   getEventos() {
-    this.http.get('https://localhost:5001/api/eventos').subscribe(response => {
-      this.eventos = response;
+  public getEventos() {
+    this.service.getEventos().subscribe((_evento: Evento[]) => {
+      this.eventos = _evento;
       this.eventosFiltrados = this.eventos
-    }, error => {
+    }, (error: unknown) => {
       console.log(error);
     });
   }
+
+  public alternarImagem(): void {
+    this.mostrarImagem = !this.mostrarImagem;
+  }
+
+
 
 }
