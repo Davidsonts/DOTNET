@@ -9,22 +9,32 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { EventosComponent } from './eventos/eventos.component';
-import { PalestrantesComponent } from './palestrantes/palestrantes.component';
-import { NavComponent } from './nav/nav.component';
 import { DateTimeFormatPipe } from './_helpers/DateTimeFormat.pipe';
-import { NgxSpinnerModule } from 'ngx-spinner';
+import { TituloComponent } from './_shared/titulo/titulo.component';
+import { AppComponent } from './app.component';
+import { EventosComponent } from './components/eventos/eventos.component';
+import { PalestrantesComponent } from './components/palestrantes/palestrantes.component';
+import { NavComponent } from './_shared/nav/nav.component';
+import { ContatosComponent } from './components/contatos/contatos.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    NavComponent,
+    DateTimeFormatPipe,
     EventosComponent,
     PalestrantesComponent,
-    NavComponent,
-    DateTimeFormatPipe
+    TituloComponent,
+    PerfilComponent,
+    ContatosComponent,
+    DashboardComponent,
+    TituloComponent,
+    PerfilComponent,
   ],
   imports: [
     BrowserModule,
