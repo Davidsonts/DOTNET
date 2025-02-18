@@ -108,3 +108,23 @@ npm install ngx-bootstrap@12 --save
 npm install bootstrap@4
 npm i ngx-toastr@14.3.0 --save
 npm install @angular/animations@14.3.0 --save
+
+```
+https://bootsnipp.com
+https://bootswatch.com
+https://getbootstrap.com/docs/4.6/examples/
+https://getbootstrap.com/docs/4.6/examples/offcanvas/
+```
+npm install bootswatch
+import "bootswatch/dist/[theme]/bootstrap.min.css";
+
+ng g c components/eventos/evento-detalhe --module app
+ng g c components/eventos/evento-lista --module app
+
+```
+user_login_registration.html
+
+```
+ng g c components/user
+
+```
