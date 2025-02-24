@@ -78,6 +78,20 @@ dotnet ef migrations list  -p ProEventos.Persistence -s ProEventos.API
 dotnet ef database update 0 -p ProEventos.Persistence -s ProEventos.API
 
 dotnet ef migrations remove -p ProEventos.Persistence -s ProEventos.API
+```
+
+## DATA TRANSFER OBJECT (Dtos)
+```
+cd src/ProEventos.Application/
+
+dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection --version 8.1.1
+dotnet restore 
+
+dotnet watch run --launch-profile https
+
+```
+https://www.entityframeworktutorial.net
+
 
 ctor - constructor
 prop - 
