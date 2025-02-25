@@ -38,7 +38,10 @@
                 <div class="form-group col-md-4">
                     <label>Data e Hora</label>
                     <input type="datetime" class="form-control" [ngClass]="{'is-invalid': f.dataEvento.errors && f.dataEvento.touched}"
-                        formControlName="dataEvento" placeholder="">
+                        formControlName="dataEvento" 
+                        bsDatepicker 
+                        [bsConfig]="bsConfig"
+                        placeholder="">
                     <div class="invalid-feedback">
                         O campo é obrigatório
                     </div>
