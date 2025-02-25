@@ -39,6 +39,7 @@
                     <label>Data e Hora</label>
                     <input type="datetime" class="form-control" [ngClass]="{'is-invalid': f.dataEvento.errors && f.dataEvento.touched}"
                         formControlName="dataEvento" 
+                        value="{{ form.controls.dataEvento.value | DateTimeFormat }}"
                         bsDatepicker 
                         [bsConfig]="bsConfig"
                         placeholder="">
@@ -59,7 +60,7 @@
                         Formato inválido
                     </div>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-2">
                     <label>Telefone</label>
                     <input type="text" class="form-control" [ngClass]="{'is-invalid': f.telefone.errors && f.telefone.touched}"
                         formControlName="telefone" placeholder="(000) 90000-0000">
@@ -69,7 +70,8 @@
                     <div *ngIf="f.telefone.errors?.pattern" class="invalid-feedback">
                         Formato inválido
                     </div>
-                <div class="form-group col-md-6">
+                </div>
+                <div class="form-group col-md-2">
                     <label>Email</label>
                     <input type="text" class="form-control" [ngClass]="{'is-invalid': f.email.errors && f.email.touched}"
                         formControlName="email" placeholder="e-mail">
@@ -79,8 +81,15 @@
                     <div *ngIf="f.email.errors?.email" class="invalid-feedback">
                         Formato inválido
                     </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Imagem</label>
+                    <input type="text" class="form-control" [ngClass]="{'is-invalid': f.imageUrl.errors && f.imageUrl.touched}"
+                        formControlName="imageUrl" placeholder="">
+                    <div class="invalid-feedback">
+                        O campo é obrigatório
                     </div>
-                    </div>
+                </div>    
             </div>
         </div>
         <div class="card-footer">
@@ -88,8 +97,8 @@
                 <button class="btn btn-outline-secondary mr-auto border">
                     Cancelar Alteração
                 </button>
-                <button class="btn btn-success">
-                    <span class="spinner-border spinner-border-sm mr-1"></span>
+                <button class="btn btn-success" [disabled]="!form.valid" (click)="submit()">
+                    <!-- <span class="spinner-border spinner-border-sm mr-1"></span> -->
                     Salvar Evento
                 </button>
             </div>

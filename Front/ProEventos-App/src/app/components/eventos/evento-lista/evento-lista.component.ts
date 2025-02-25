@@ -18,6 +18,7 @@ export class EventoListaComponent {
   public marginImg: number  = 2;
   public mostrarImagem: boolean = false;
   private _filtroLista: string = "";
+  public eventoId: number = 0;
 
   public get filtroLista() {
     return this._filtroLista
@@ -49,14 +50,29 @@ export class EventoListaComponent {
 
   }
 
-  openModal(template: TemplateRef<any>) {
+  openModal(event: any, template: TemplateRef<any>, eventoId: number) {
+    event.stopPropagation();
+    this.eventoId = eventoId;
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
  
   confirm(): void {
     this.message = 'Confirmed!';
     this.modalRef.hide();
-    this.toastr.success('Excluído', 'Escluído');
+    this.spinner.show();
+
+    this.service.delete(this.eventoId).subscribe((res: any) => {
+        if (res.message === 'Deletado') {
+          this.toastr.success('Excluído', 'Escluído');
+        }
+      }, (error: any) => {
+        console.log(error);
+        this.spinner.hide();
+        this.toastr.error('Erro ao tentar deletar evento', 'Erro');
+      }, () => {
+        this.spinner.hide();    
+        this.getEventos();
+      });
   }
  
   decline(): void {
