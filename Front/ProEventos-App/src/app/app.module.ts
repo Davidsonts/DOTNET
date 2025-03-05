@@ -29,6 +29,7 @@ import { EventoListaComponent } from './components/eventos/evento-lista/evento-l
 import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
+import { NgxCurrencyDirective } from 'ngx-currency';
 
 defineLocale('pt-br', ptBrLocale);
 
@@ -68,7 +69,8 @@ defineLocale('pt-br', ptBrLocale);
       closeButton: true
     }),
     NgxSpinnerModule.forRoot(),
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    NgxCurrencyDirective
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -122,6 +122,7 @@ npm install ngx-bootstrap@12 --save
 npm install bootstrap@4
 npm i ngx-toastr@14.3.0 --save
 npm install @angular/animations@14.3.0 --save
+npm install ngx-currency@17.0.0 --save
 
 ```
 https://bootsnipp.com
