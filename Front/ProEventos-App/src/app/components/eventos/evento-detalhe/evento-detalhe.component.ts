@@ -23,6 +23,7 @@ export class EventoDetalheComponent implements OnInit {
   _state: string = 'post';
   eventoId: number = 0;
   loteAtual: { id: number; nome: string; indice: number} = { id: 0, nome: '', indice: 0 };
+  lotesData: any[] = [];
 
   get modoEditar(): boolean {
     return this._state === 'put';
@@ -93,14 +94,26 @@ export class EventoDetalheComponent implements OnInit {
    this.lotes.push(this.criarLote({id: 0} as Lote));
   }
 
-  criarLote(lote: Lote): FormGroup {   
+  criarLote(lote: Lote): FormGroup {  
+    let dataInicio = lote?.dataInicio ? new Date(lote.dataInicio) : null;
+    if (dataInicio && isNaN(dataInicio.getTime())) {
+      console.warn('Invalid date detected:', lote.dataInicio);
+      dataInicio = null;
+    }
+
+    let dataFim = lote?.dataFim ? new Date(lote.dataFim) : null;
+    if (dataFim && isNaN(dataFim.getTime())) {
+      console.warn('Invalid date detected:', lote.dataFim);
+      dataFim = null;
+    }
+
     return this.fb.group({
       id: [lote.id],
       nome: [lote.nome, [Validators.required]],
       quantidade: [lote.quantidade, [Validators.required]],
       preco: [lote.preco, [Validators.required]],
-      dataInicio: [lote.dataInicio, [Validators.required]],
-      dataFim: [lote.dataFim, [Validators.required]],
+      dataInicio: [dataInicio, [Validators.required]],
+      dataFim: [dataFim, [Validators.required]],
       eventoId: [this.eventoId],
     })
   }
@@ -116,14 +129,30 @@ export class EventoDetalheComponent implements OnInit {
         (evento: any) => {
           this.evento = { ... evento };
           this.form.patchValue(evento);
-          this.evento.lotes.forEach((lote: Lote) => {
-            this.lotes.push(this.criarLote(lote));
-          });
+          // this.evento.lotes.forEach((lote: Lote) => {
+          //   this.lotes.push(this.criarLote(lote));
+          // });
+          this.carregarLotes();
         }, (error: any) => {
           this.toastr.error('Erro ao tentar carregar evento.', 'Erro!');
         }, () => { }
       ).add(() => { this.spinner.hide(); });
     }
+  }
+
+  carregarLotes(): void {
+    this.loteService.getLotesByEventoId(this.eventoId).subscribe(
+      (lotesRetorno: any[]) => {
+        this.lotes.clear(); // Clear existing controls
+        lotesRetorno.forEach((lote) => {
+          this.lotes.push(this.criarLote(lote));
+        });
+      },
+      (error: any) => {
+        this.toastr.error('Erro ao tentar carregar lotes', 'Erro');
+        console.error(error);
+      }
+    ).add(() => this.spinner.hide());
   }
 
   submit(): void {
@@ -202,8 +231,16 @@ export class EventoDetalheComponent implements OnInit {
     this.modalRef?.hide();
   }
 
-  public mudarValorData(value: Date, indice: number, campo: string): void {
-    this.lotes.value[indice][campo] = value;
+  mudarValorData(value: Date, indice: number, campo: string): void {
+    const control = this.lotes.at(indice).get(campo);
+    if (control) {
+      if (value && !isNaN(value.getTime())) {
+        control.setValue(value);
+      } else {
+        console.error('Invalid date selected:', value);
+        control.setValue(null);
+      }
+    }
   }
 
   public retornaTituloLote(nome: string): string {
