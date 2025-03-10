@@ -11,6 +11,7 @@ import { Evento } from 'src/app/_models/Evento';
 import { Lote } from 'src/app/_models/Lote';
 import { EventoService } from 'src/app/_services/evento.service';
 import { LoteService } from 'src/app/_services/lote.service';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-evento-detalhe',
   templateUrl: './evento-detalhe.component.html',
@@ -24,6 +25,8 @@ export class EventoDetalheComponent implements OnInit {
   eventoId: number = 0;
   loteAtual: { id: number; nome: string; indice: number} = { id: 0, nome: '', indice: 0 };
   lotesData: any[] = [];
+  file!: File;
+  imagemURL = 'assets/img/upload.png';
 
   get modoEditar(): boolean {
     return this._state === 'put';
@@ -80,7 +83,7 @@ export class EventoDetalheComponent implements OnInit {
       dataEvento: ['', [Validators.required]],
       tema: ['',  [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
       qtdPessoas: ['', [Validators.required, Validators.min(1), Validators.max(120000)]],
-      imageUrl: ['', [Validators.required]],
+      imageUrl: [''],
       telefone: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(15)]],
       email: ['', [Validators.required, Validators.email]],
       lotes: this.fb.array([]),
@@ -127,11 +130,18 @@ export class EventoDetalheComponent implements OnInit {
       // (this.form.get('lotes') as FormArray).clear();
       this.eventoService.getEventoById(this.eventoId).subscribe(
         (evento: any) => {
-          this.evento = { ... evento };
-          this.form.patchValue(evento);
+          this.evento = { ... evento, dataEvento: evento.dataEvento ? new Date(evento.dataEvento) : null };
+          // this.form.patchValue(evento);
+          this.form.patchValue({
+            ...evento,
+            dataEvento: evento.dataEvento ? new Date(evento.dataEvento) : null
+          });
           // this.evento.lotes.forEach((lote: Lote) => {
           //   this.lotes.push(this.criarLote(lote));
           // });
+          if(evento.imageUrl !== '') {
+            this.imagemURL = environment.apiURL + 'resources/images/' + evento.imageUrl;
+          }
           this.carregarLotes();
         }, (error: any) => {
           this.toastr.error('Erro ao tentar carregar evento.', 'Erro!');
@@ -241,11 +251,39 @@ export class EventoDetalheComponent implements OnInit {
         control.setValue(null);
       }
     }
-  }
+  } 
 
   public retornaTituloLote(nome: string): string {
     return nome === null || nome === '' ? 'Nome do lote' : nome;
   }
 
+onFileChange(ev: Event): void {  
+  const input = ev.target as HTMLInputElement;
 
+  if (input.files && input.files.length > 0) {
+    this.file = input.files[0]; // Assign only the first file correctly
+    const reader = new FileReader();
+
+    reader.onload = (event: ProgressEvent<FileReader>) => {
+      this.imagemURL = event.target?.result as string; // Ensure type safety
+    };
+
+    reader.readAsDataURL(this.file);
+    this.uploadImagem();
+  }
+}
+
+  uploadImagem(): void {  
+    this.spinner.show();
+    this.eventoService.uploadImagem(this.eventoId, this.file).subscribe(
+      () => {
+        this.toastr.success('Imagem atualizada com sucesso!', 'Sucesso!');
+        this.fecthEvento();
+      },
+      (error: any) => {
+        this.toastr.error('Erro ao tentar atualizar imagem.', 'Erro!');
+        console.error(error);
+      }, () => { }
+    ).add(() => { this.spinner.hide(); });
+  }
 }

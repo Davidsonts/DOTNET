@@ -39,16 +39,16 @@
             </tr>
         </thead>
         <tbody *ngIf="eventos && eventos.length > 0">
-            <tr *ngFor="let evento of eventosFiltrados" (click)="detalheEvento(evento.id)" style="cursor: pointer;">
+            <tr *ngFor="let evento of eventosFiltrados" (click)="detalheEvento(evento.id)" style="cursor: pointer;"> 
                 <td class="d-none d-md-table-cell">
                     <img [collapse]="!mostrarImagem"
                         [isAnimated]="true"
-                        src="/assets/{{evento?.imagemURL}}"
+                        [src]="mostraImagem(evento.imageUrl)"
                         [style.width.px]="widthImg" 
                         [style.magin.px]="marginImg" />
                 </td>  
                 <td>
-                    {{evento?.id}}
+                    {{ evento?.id }}
                 </td> 
                 <td>
                     {{evento?.tema}}
@@ -85,7 +85,7 @@
         </tfoot>
     </table>
 
-    <pre class="card card-block card-header">{{message}}</pre>
+    <!-- <pre class="card card-block card-header">{{message}}</pre> -->
     <ng-template #template>
     <div class="modal-body text-center">
         <p>Tem certeza que quer deletar o Evento ID: {{ eventoId }}</p>
