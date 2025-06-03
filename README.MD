@@ -143,3 +143,11 @@ user_login_registration.html
 ng g c components/user
 
 ```
+
+```
+dotnet watch -p ProEventos.API
+
+dotnet watch run
+
+https://localhost:5001/swagger/index.html
+```
